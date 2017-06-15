@@ -29,7 +29,7 @@ public class GamePageParser {
         String homeFname = boxscore.getHomeFname();
         String date = boxscore.getDate();
         String fileName = String.format("%s_%s_at_%s.txt", date, awayFname, homeFname);
-        fileName = fileName.replaceAll("\\s+","_").replaceAll(",","");
+        fileName = fileName.replaceAll("\\s+", "_").replaceAll(",", "");
         File dir = new File("build/data");
         dir.mkdir();
         try {
@@ -64,7 +64,12 @@ public class GamePageParser {
                 CompletableFuture.supplyAsync(new GamePageLinksSupplier(startDate, days))
                         .thenApply(new BoxscoreRetriever());
 
-        CompletableFuture<Void> futureWrite = future.thenAcceptAsync(this::saveResultList);
+        CompletableFuture<Void> futureWrite =
+                future.thenAcceptAsync(this::saveResultList)
+                        .exceptionally(ex -> {
+                            System.err.println(ex.getMessage());
+                            return null;
+                        });
 
         CompletableFuture<OptionalInt> futureMaxScore = future.thenApplyAsync(this::getMaxScore);
         CompletableFuture<Optional<Result>> futureMaxGame = future.thenApplyAsync(this::getMaxScoreGame);
