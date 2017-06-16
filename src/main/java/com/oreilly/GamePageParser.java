@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class GamePageParser {
 
     private void saveResultList(List<Result> results) {
-        results.forEach(this::saveResultToFile);
+        results.parallelStream().forEach(this::saveResultToFile);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -34,7 +34,6 @@ public class GamePageParser {
         dir.mkdir();
         try {
             File file = new File(dir + "/" + fileName);
-            if (!file.exists()) file.createNewFile();
             Files.write(file.toPath().toAbsolutePath(), gson.toJson(result).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +53,7 @@ public class GamePageParser {
                 .max();
     }
 
-    public Optional<Result> getMaxScoreGame(List<Result> results) {
+    public Optional<Result> getMaxGame(List<Result> results) {
         return results.stream()
                 .max(Comparator.comparingInt(this::getTotalScore));
     }
@@ -72,7 +71,7 @@ public class GamePageParser {
                         });
 
         CompletableFuture<OptionalInt> futureMaxScore = future.thenApplyAsync(this::getMaxScore);
-        CompletableFuture<Optional<Result>> futureMaxGame = future.thenApplyAsync(this::getMaxScoreGame);
+        CompletableFuture<Optional<Result>> futureMaxGame = future.thenApplyAsync(this::getMaxGame);
         CompletableFuture<String> futureMax = futureMaxScore.thenCombineAsync(futureMaxGame,
                 (score, result) ->
                         String.format("Highest score: %d, Max Game: %s",
