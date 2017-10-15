@@ -1,9 +1,11 @@
-group 'com.oreilly'
-version '1.0'
+plugins {
+    id 'com.zyxist.chainsaw' version '0.1.3'
+    id 'java'
+}
 
-apply plugin: 'java'
+javaModule.name = 'com.oreilly.cfboxscores'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 repositories {
     mavenCentral()

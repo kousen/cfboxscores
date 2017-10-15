@@ -28,8 +28,7 @@ public class BoxscoreRetriever implements Function<List<String>, List<Result>> {
         Request request = new Request.Builder()
                 .url(boxscoreUrl)
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
                 System.out.println("Boxscore not found for " + boxscoreUrl);
                 return Optional.empty();
