@@ -14,7 +14,7 @@ public class BoxscoreRetrieverTest {
     private BoxscoreRetriever retriever = new BoxscoreRetriever();
 
     @Test
-    public void gamePattern2Result() throws Exception {
+    public void gamePattern2Result() {
         String pattern = "gid_2017_05_28_anamlb_miamlb_1/";
         Optional<Result> result = retriever.gamePattern2Result(pattern);
         assertTrue(result.isPresent());
@@ -25,7 +25,7 @@ public class BoxscoreRetrieverTest {
     }
 
     @Test
-    public void apply() throws Exception {
+    public void apply() {
         LocalDate startDate = LocalDate.of(2017, Month.MAY, 28);
         List<Result> results = retriever.apply(new GamePageLinksSupplier(startDate, 3).get());
         assertEquals(45, results.size());

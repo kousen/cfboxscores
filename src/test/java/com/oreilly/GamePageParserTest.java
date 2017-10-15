@@ -11,7 +11,7 @@ public class GamePageParserTest {
     private GamePageParser parser = new GamePageParser();
 
     @Test
-    public void getGames() throws Exception {
+    public void getGames() {
         parser.printGames(LocalDate.of(2017, Month.MAY, 5), 3);
     }
 }

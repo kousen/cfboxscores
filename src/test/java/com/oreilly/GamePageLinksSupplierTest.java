@@ -13,7 +13,7 @@ public class GamePageLinksSupplierTest {
     private GamePageLinksSupplier supplier = new GamePageLinksSupplier(date, 3);
 
     @Test
-    public void getGamePageLinks() throws Exception {
+    public void getGamePageLinks() {
         List<String> singleDayGames = supplier.getGamePageLinks(date);
         assertEquals(15, singleDayGames.size());
         singleDayGames.forEach(link ->
@@ -21,7 +21,7 @@ public class GamePageLinksSupplierTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         List<String> threeDaysGames = supplier.get();
         assertEquals(45, threeDaysGames.size());
         threeDaysGames.forEach(s ->
